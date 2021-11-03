@@ -3,10 +3,10 @@ const TodoData = require("../models/TodoData");
 const mongoose = require("../db");
 
 describe("TodoData Service", () => {
-  beforeEach(async () => {
-    await TodoData.deleteMany({});
-  });
-  it("adds a todo and returns it with id", async () => {
+  // beforeEach(async () => {
+  //   await TodoData.deleteMany({});
+  // });
+  xit("adds a todo and returns it with id", async () => {
     const todoData = {
       name: "Add entry",
       desc: "Personal log",
@@ -20,7 +20,7 @@ describe("TodoData Service", () => {
     expect(actual.order).toBeTruthy();
   });
 
-  it("returns all the todo-data saved", async () => {
+  xit("returns all the todo-data saved", async () => {
     const todo1 = {
       name: "Add entry",
       desc: "Personal log",
@@ -43,7 +43,7 @@ describe("TodoData Service", () => {
     expect(actual.order.length).toEqual(2);
   });
 
-  it("updates the todo order", async () => {
+  xit("updates the todo order", async () => {
     const todo1 = {
       name: "Add entry",
       desc: "Personal log",
@@ -69,7 +69,7 @@ describe("TodoData Service", () => {
     expect(Array.from(actual.order)).toEqual([returnedTodo2.order[1], returnedTodo2.order[0]]);
   })
 
-  it("updates the todo name and desc", async () => {
+  xit("updates the todo name and desc", async () => {
     const todo1 = {
       name: "Add entry",
       desc: "Personal log",
@@ -90,7 +90,7 @@ describe("TodoData Service", () => {
     expect(actual.todos[actual.order[0]].dateCompleted).toEqual("1622083278575");
   })
 
-  it('deletes the todo, given id', async () => {
+  xit('deletes the todo, given id', async () => {
     const todo1 = {
       name: "Add entry",
       desc: "Personal log",

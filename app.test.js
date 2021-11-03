@@ -7,19 +7,19 @@ const app = new App();
 
 
 describe("Test public routes", () => {
-  beforeEach(async () => {
-    await TodoData.deleteMany({});
-  });
+  // beforeEach(async () => {
+  //   await TodoData.deleteMany({});
+  // });
 
-  afterAll(() => {
-    mongoose.connection.close();
-  });
+  // afterAll(() => {
+  //   mongoose.connection.close();
+  // });
 
   it("should respond with a 200 at /health", () => {
     return request(app).get("/health").expect(200);
   });
 
-  it("should add a todo, returning it in an order and object mapped by id", () => {
+  xit("should add a todo, returning it in an order and object mapped by id", () => {
     return request(app)
       .post("/api/todo-data")
       .send({
@@ -59,7 +59,7 @@ describe("Test public routes", () => {
       });
   });
   
-  it("should return all the todos saved, with the order", () => {
+  xit("should return all the todos saved, with the order", () => {
     const todo1 = {
       name: "Add entry",
       desc: "Personal log",
@@ -89,7 +89,7 @@ describe("Test public routes", () => {
       });
   });
 
-  it("should update the order of todos", () => {
+  xit("should update the order of todos", () => {
     const todo1 = {
       name: "Add entry",
       desc: "Personal log",
@@ -130,7 +130,7 @@ describe("Test public routes", () => {
       });
   });
 
-  it("should update a todo by id", () => {
+  xit("should update a todo by id", () => {
     const todo1 = {
       name: "Add entry",
       desc: "Personal log",
@@ -164,7 +164,7 @@ describe("Test public routes", () => {
       });
   });
 
-  it("should delete a todo by id", () => {
+  xit("should delete a todo by id", () => {
     const todo1 = {
       name: "Add entry",
       desc: "Personal log",
