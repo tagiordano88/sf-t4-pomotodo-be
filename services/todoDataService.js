@@ -1,30 +1,53 @@
+require('dotenv').config();
 const uuid = require("uuid");
-const TodoData = require("../models/TodoData");
+const dynamoClient = require('../db');
+const TableName = process.env.TABLE_NAME;
+
 
 module.exports = class TodoDataService {
   static async addTodo(todo) {
     const id = uuid.v4();
     todo.id = id;
 
-    try {
-      let response;
-      let existingTodoData = await TodoData.find({});
-      if (existingTodoData.length === 0) {
-        const todoData = {};
-        todoData.order = [];
-        todoData.order.push(id);
-        todoData.todos = {};
-        todoData.todos[id] = todo;
+    const params = {
+      TableName,
+    };
 
-        response = await TodoData(todoData).save();
-      } else {
-        existingTodoData = existingTodoData[0];
+    try {
+      let existingTodoData = await dynamoClient.scan(params).promise();
+      
+      // no tododata exists yet
+      if (existingTodoData.Items.length === 0) {
+        const newTodoData = {
+          order: [],
+          todos: {}
+        };
+        newTodoData.id = "0";
+        newTodoData.order.push(id);
+        newTodoData.todos[id] = todo;
+
+        const params = {
+          TableName,
+          Item: newTodoData,
+        }
+
+        await dynamoClient.put(params).promise();
+        const newStoredTodoData = await dynamoClient.scan({ TableName }).promise();
+        return newStoredTodoData.Items[0];
+      } else { // todos exist
+        existingTodoData = existingTodoData.Items[0];
         existingTodoData.order.push(id);
         existingTodoData.todos[id] = todo;
-
-        response = await TodoData(existingTodoData).save();
+        
+        const params = {
+          TableName,
+          Item: existingTodoData,
+        }
+        
+        await dynamoClient.put(params).promise();
+        const updatedTodoData = await dynamoClient.scan({ TableName }).promise();
+        return updatedTodoData.Items[0];
       }
-      return response;
     } catch (error) {
       return error;
     }
@@ -32,8 +55,14 @@ module.exports = class TodoDataService {
 
   static async getTodos() {
     try {
-      const response = await TodoData.findOne({});
-      return response;
+      const params = {
+        TableName,
+        Key: {
+          id: "0"
+        }
+      }
+      const response = await dynamoClient.scan(params).promise();
+      return response.Items[0];
     } catch (error) {
       return error;
     }
@@ -41,7 +70,21 @@ module.exports = class TodoDataService {
 
   static async updateOrder(options) {
     try {
-      await TodoData.findOneAndUpdate({}, options);
+      const params = {
+        TableName,
+        Key: {
+          id: "0"
+        },
+        UpdateExpression: "set #oldOrder = :newOrder",
+        ExpressionAttributeNames: {
+          "#oldOrder": "order"
+        },
+        ExpressionAttributeValues: {
+          ":newOrder": options.order
+        },
+      }
+
+      await dynamoClient.update(params).promise();
     } catch (error) {
       return error;
     }
@@ -49,11 +92,29 @@ module.exports = class TodoDataService {
 
   static async updateTodo(id, options) {
     try {
-      let existingTodo = await TodoData.findOne({});
+      let params = {
+        TableName,
+        Key: {
+          id: "0"
+        }
+      }
+
+      let existingTodo = await dynamoClient.scan(params).promise().then((data) => {
+          return data.Items[0];
+      });
+
       for (let key in options) {
         existingTodo.todos[id][key] = options[key];
       }
-      await TodoData.findOneAndUpdate({}, existingTodo);
+
+      params = {
+        TableName,
+        Item: {
+          ...existingTodo
+        }
+      }
+
+      await dynamoClient.put(params).promise();
     } catch (error) {
       return error;
     }
@@ -61,12 +122,31 @@ module.exports = class TodoDataService {
 
   static async deleteTodo(id) {
     try {
-      let existingTodo = await TodoData.findOne({});
+      let params = {
+        TableName,
+        Key: {
+          id: "0"
+        }
+      }
+
+      let existingTodo = await dynamoClient.scan(params).promise().then((data) => {
+          return data.Items[0];
+      });
+
       existingTodo.order = existingTodo.order.filter((orderId) => {
         return orderId !== id
       });
+
       delete existingTodo.todos[id];
-      await TodoData.findOneAndUpdate({}, existingTodo);
+
+      params = {
+        TableName,
+        Item: {
+          ...existingTodo
+        }
+      }
+
+      await dynamoClient.put(params).promise();
     } catch (error) {
       return error;
     }
@@ -74,7 +154,17 @@ module.exports = class TodoDataService {
 
   static async deleteCompletedTodos() {
     try {
-      let existingTodo = await TodoData.findOne({});
+      let params = {
+        TableName,
+        Key: {
+          id: "0"
+        }
+      }
+
+      let existingTodo = await dynamoClient.scan(params).promise().then((data) => {
+          return data.Items[0];
+      });
+
       existingTodo.order = existingTodo.order.filter((orderId) => {
         return !existingTodo.todos[orderId].completed;
       });
@@ -83,7 +173,15 @@ module.exports = class TodoDataService {
           delete existingTodo.todos[id];
         }
       }
-      await TodoData(existingTodo).save();
+      
+      params = {
+        TableName,
+        Item: {
+          ...existingTodo
+        }
+      }
+
+      await dynamoClient.put(params).promise();
     } catch (error) {
       return error;
     }

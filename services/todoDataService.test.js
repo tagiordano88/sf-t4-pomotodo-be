@@ -1,12 +1,13 @@
+require('dotenv').config();
 const todoDataService = require("./todoDataService");
-const TodoData = require("../models/TodoData");
-const mongoose = require("../db");
+const dynamoClient = require("../db");
+const TableName = process.env.TABLE_NAME;
 
 describe("TodoData Service", () => {
-  // beforeEach(async () => {
-  //   await TodoData.deleteMany({});
-  // });
-  xit("adds a todo and returns it with id", async () => {
+  beforeEach(async () => {
+    await dynamoClient.delete({ TableName, Key: { id: "0" } }).promise();
+  });
+  it("adds a todo and returns it with id", async () => {
     const todoData = {
       name: "Add entry",
       desc: "Personal log",
@@ -16,11 +17,10 @@ describe("TodoData Service", () => {
     };
 
     const actual = await todoDataService.addTodo(todoData);
-
     expect(actual.order).toBeTruthy();
   });
 
-  xit("returns all the todo-data saved", async () => {
+  it("returns all the todo-data saved", async () => {
     const todo1 = {
       name: "Add entry",
       desc: "Personal log",
@@ -43,7 +43,7 @@ describe("TodoData Service", () => {
     expect(actual.order.length).toEqual(2);
   });
 
-  xit("updates the todo order", async () => {
+  it("updates the todo order", async () => {
     const todo1 = {
       name: "Add entry",
       desc: "Personal log",
@@ -58,6 +58,7 @@ describe("TodoData Service", () => {
       tags: ["manu"],
       pomodoroCount: 0,
     };
+
     const returnedTodo1 = await todoDataService.addTodo(todo1);
     const returnedTodo2 = await todoDataService.addTodo(todo2);
 
@@ -69,7 +70,7 @@ describe("TodoData Service", () => {
     expect(Array.from(actual.order)).toEqual([returnedTodo2.order[1], returnedTodo2.order[0]]);
   })
 
-  xit("updates the todo name and desc", async () => {
+  it("updates the todo name and desc", async () => {
     const todo1 = {
       name: "Add entry",
       desc: "Personal log",
@@ -90,7 +91,7 @@ describe("TodoData Service", () => {
     expect(actual.todos[actual.order[0]].dateCompleted).toEqual("1622083278575");
   })
 
-  xit('deletes the todo, given id', async () => {
+  it('deletes the todo, given id', async () => {
     const todo1 = {
       name: "Add entry",
       desc: "Personal log",

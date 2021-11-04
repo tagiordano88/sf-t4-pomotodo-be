@@ -1,25 +1,22 @@
+require('dotenv').config();
+const dynamoClient = require("./db");
+const TableName = process.env.TABLE_NAME;
+
 const request = require("supertest");
-const mongoose = require("mongoose");
-const TodoData = require("./models/TodoData");
 const todoDataService = require("./services/TodoDataService");
 const App = require("./app");
 const app = new App();
 
-
 describe("Test public routes", () => {
-  // beforeEach(async () => {
-  //   await TodoData.deleteMany({});
-  // });
-
-  // afterAll(() => {
-  //   mongoose.connection.close();
-  // });
+  beforeEach(async () => {
+    await dynamoClient.delete({ TableName, Key: { id: "0" } }).promise();
+  });
 
   it("should respond with a 200 at /health", () => {
     return request(app).get("/health").expect(200);
   });
 
-  xit("should add a todo, returning it in an order and object mapped by id", () => {
+  it("should add a todo, returning it in an order and object mapped by id", () => {
     return request(app)
       .post("/api/todo-data")
       .send({
@@ -59,7 +56,7 @@ describe("Test public routes", () => {
       });
   });
   
-  xit("should return all the todos saved, with the order", () => {
+  it("should return all the todos saved, with the order", () => {
     const todo1 = {
       name: "Add entry",
       desc: "Personal log",
@@ -77,19 +74,19 @@ describe("Test public routes", () => {
     return todoDataService
       .addTodo(todo1)
       .then(() => {
-        todoDataService.addTodo(todo2);
+        return todoDataService.addTodo(todo2);
       })
       .then(() => {
         return request(app)
           .get("/api/todo-data")
           .expect(200)
-          .then(({ body }, err) => {
+          .then(({ body }) => {
             expect(body.order.length).toEqual(2);
           });
       });
   });
 
-  xit("should update the order of todos", () => {
+  it("should update the order of todos", () => {
     const todo1 = {
       name: "Add entry",
       desc: "Personal log",
@@ -130,7 +127,7 @@ describe("Test public routes", () => {
       });
   });
 
-  xit("should update a todo by id", () => {
+  it("should update a todo by id", () => {
     const todo1 = {
       name: "Add entry",
       desc: "Personal log",
@@ -164,7 +161,7 @@ describe("Test public routes", () => {
       });
   });
 
-  xit("should delete a todo by id", () => {
+  it("should delete a todo by id", () => {
     const todo1 = {
       name: "Add entry",
       desc: "Personal log",

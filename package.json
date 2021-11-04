@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watch --forceExit",
+    "test": "jest --runInBand --watch --forceExit",
     "start": "nodemon index.js"
   },
   "author": "dhkaneda",
