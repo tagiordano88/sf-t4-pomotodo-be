@@ -21,7 +21,7 @@
 
 ## Exercise
 Two test suites have been created to ensure a reliable refactor of this application from using MongoDB with Mongoose to using the AWS SDK for DynamoDB. The DynamoDB connection has been set up in the "db" directory. 
-1. Begin in the "services" directory, run the Jest test suite with `npm test`, and make your changes in "todoDataService.js". The [AWS SDK DynamoDB Document Client Docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html) will be most helpful
+1. Begin in the "services" directory, run the Jest test suite with `npm test`, and make your changes in "todoDataService.js". The [AWS SDK DynamoDB Document Client Docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html) and [Using Javascript Promises with AWS SDK Requests](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/using-promises.html) will be most helpful
 1. Work on one test at a time. Use console.log()'s where necessary to see what you're doing. Don't forget to refresh your DynamoDB table in the Management Console to see the Items update there as well.
 1. Once all your service tests are passing, see the "app.test.js" suite in the project's root directory. Remove the "x" before the main "describe" block to enable this test suite. Run `npm test` again and if all goes well, these integration tests should work, too. 
 1. Run a manual test by hooking up your the pomotodo-frontend to use the newly DynamoDB connected backend! 
