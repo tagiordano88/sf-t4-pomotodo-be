@@ -3,7 +3,6 @@ const express = require('express');
 const router = express.Router();
 
 const todoData = require("../controllers/todoDataController");
-const TodoData = require("../models/TodoData");
 const dynamoClient = require('../db');
 const TableName = process.env.TABLE_NAME;
 
