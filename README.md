@@ -2,14 +2,22 @@
 
 ## Requirements
 - node (tested with versions 10+)
-- MongoDB (install locally - can use Docker)
+- AWS account with DynamoDB and IAM role with Programmatic Access
 
 ## Installation
 - `npm install`
 
 ## Usage
+- Create a DynamoDB table called "tododata" with a Primary Key: "tododata" as String
+- Create a .env file with the following values
+  ```
+  PORT=5000
+  TABLE_NAME=tododata
+  AWS_ACCESS_KEY_ID=******************
+  AWS_SECRET_ACCESS_KEY=****************
+  AWS_DEFAULT_REGION=****************
+  ```
 - `npm start`
-- If using a remote MongoDB instance, set the URL in the .env file as the variable **mongoURI** and start the Express server.
 
 ## Stories and Acceptance Criteria
 ### Example TODO body
