@@ -6,7 +6,6 @@ const request = require("supertest");
 const todoDataService = require("./services/TodoDataService");
 const App = require("./app");
 const app = new App();
-
 jest.useFakeTimers();
 
 xdescribe("Test public routes", () => {

@@ -9,6 +9,7 @@ describe("TodoData Service", () => {
     // Empties the "tododata" table before each test, deleting the existing tododata
     await dynamoClient.delete({ TableName, Key: { id: "0" } }).promise();
   });
+
   it("adds a todo and returns it with id", async () => {
     const todoData = {
       name: "Add entry",

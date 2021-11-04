@@ -6,7 +6,7 @@ const todoData = require("../controllers/todoDataController");
 const dynamoClient = require('../db');
 const TableName = process.env.TABLE_NAME;
 
-/* If the server is starting for the very first time, the collection
+/* If the server is starting for the very first time, the table
 will be empty - this will populate the db with a placeholder tododata
 item. */ 
 const populateTableWithPlaceholder = async () => {
