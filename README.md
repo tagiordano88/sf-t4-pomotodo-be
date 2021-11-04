@@ -1,4 +1,4 @@
-# Pomodoro Todo List (Pomotodo) Backend
+# Pomotodo Backend with DynamoDB
 
 ## Requirements
 - node (tested with versions 10+)
@@ -35,7 +35,7 @@ Two test suites have been created to ensure a reliable refactor of this applicat
   "order": [
     "57f78108-4704-41a9-989b-3721ceedfad1"
   ],
-  todos: {
+  "todos": {
     "57f78108-4704-41a9-989b-3721ceedfad1": {
       "name": "Add entry",
       "desc": "Personal log",
@@ -90,7 +90,7 @@ Response Body:
       "name": "Add entry",
       "desc": "Personal log",
       "dateCreated": "1622077232207",
-      "dateCompleted": null,
+      "dateCompleted": "null",
       "pomodoroCount": 0
     }
   }
@@ -121,14 +121,14 @@ Response Body:
         "name": "Add entry",
         "desc": "Personal log",
         "dateCreated": "1622077232207",
-        "dateCompleted": null,
+        "dateCompleted": "null",
         "pomodoroCount": 0
       },
       "21f3e843-b7c0-4ddb-8df4-0111117bf2d8": {
         "name": "Rep Building",
         "desc": "Physical Training",
         "dateCreated": "1622077232209",
-        "dateCompleted": null,
+        "dateCompleted": "null",
         "pomodoroCount": 0
       }
     }
@@ -149,7 +149,7 @@ Request Body:
 ```json
 {
   "id" : "0"
-  order: [
+  "order": [
     "d6b2e215-f095-402e-bf31-f75154a69329",
     "e61cf002-5fa4-41a2-9ace-a7bf4a284d33",
     "9b314719-0500-4e2f-a0f8-171b96766741"
