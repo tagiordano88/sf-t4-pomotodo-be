@@ -8,8 +8,8 @@
 - `npm install`
 
 ## Usage
-- Create a DynamoDB table called "tododata" with a Primary Key: "tododata" as String
-- Create a .env file with the following values
+1. Create a DynamoDB table called "tododata" with a Primary Key: "tododata" as String
+1. Create a .env file with the following values
   ```
   PORT=5000
   TABLE_NAME=tododata
@@ -17,13 +17,21 @@
   AWS_SECRET_ACCESS_KEY=****************
   AWS_DEFAULT_REGION=****************
   ```
-- `npm start`
+1. `npm start`
+
+## Exercise
+Two test suites have been created to ensure a reliable refactor of this application from using MongoDB with Mongoose to using the AWS SDK for DynamoDB. The DynamoDB connection has been set up in the "db" directory. 
+1. Begin in the "services" directory, run the Jest test suite with `npm test`, and make your changes in "todoDataService.js". The [AWS SDK DynamoDB Document Client Docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html) will be most helpful
+1. Work on one test at a time. Use console.log()'s where necessary to see what you're doing. Don't forget to refresh your DynamoDB table in the Management Console to see the Items update there as well.
+1. Once all your service tests are passing, see the "app.test.js" suite in the project's root directory. Remove the "x" before the main "describe" block to enable this test suite. Run `npm test` again and if all goes well, these integration tests should work, too. 
+1. Run a manual test by hooking up your the pomotodo-frontend to use the newly DynamoDB connected backend! 
 
 ## Stories and Acceptance Criteria
 ### Example TODO body
 
 ```json
 {
+  "id" : "0"
   "order": [
     "57f78108-4704-41a9-989b-3721ceedfad1"
   ],
@@ -33,7 +41,6 @@
       "desc": "Personal log",
       "dateCreated": "1622077232207",
       "dateCompleted": "1622077232208",
-      "tags": ["caput"],
       "pomodoroCount": 2
     }
   }
@@ -67,7 +74,6 @@ Request Body:
 {
   "name": "Add entry",
   "desc": "Personal log",
-  "tags": ["caput"],
 }
 ```
 
@@ -75,6 +81,7 @@ Response Body:
 
 ```json
 {
+  "id" : "0"
   "order": [
     "57f78108-4704-41a9-989b-3721ceedfad1"
   ],
@@ -84,7 +91,6 @@ Response Body:
       "desc": "Personal log",
       "dateCreated": "1622077232207",
       "dateCompleted": null,
-      "tags": ["caput"],
       "pomodoroCount": 0
     }
   }
@@ -105,6 +111,7 @@ GET /api/todo-data
 Response Body:
 ```json
 {
+  "id" : "0"
   "order": [
     "57f78108-4704-41a9-989b-3721ceedfad1",
     "21f3e843-b7c0-4ddb-8df4-0111117bf2d8"
@@ -115,7 +122,6 @@ Response Body:
         "desc": "Personal log",
         "dateCreated": "1622077232207",
         "dateCompleted": null,
-        "tags": ["caput"],
         "pomodoroCount": 0
       },
       "21f3e843-b7c0-4ddb-8df4-0111117bf2d8": {
@@ -123,7 +129,6 @@ Response Body:
         "desc": "Physical Training",
         "dateCreated": "1622077232209",
         "dateCompleted": null,
-        "tags": ["manu"],
         "pomodoroCount": 0
       }
     }
@@ -143,6 +148,7 @@ PATCH /api/todo-data
 Request Body: 
 ```json
 {
+  "id" : "0"
   order: [
     "d6b2e215-f095-402e-bf31-f75154a69329",
     "e61cf002-5fa4-41a2-9ace-a7bf4a284d33",
@@ -183,23 +189,6 @@ Request Body:
 {
   "name": "WORKOUTMOAR",
   "desc": "Physical Training",
-}
-```
-
-As a user I want to be able to tag my todo multiple times
-
-    Given I have saved a todo
-    When I add a tag or another
-    Then my todo has the saved tags
-
-PATCH /api/todo-data/{todo-id}
-204 No Content
-
-
-Request Body:
-```json
-{
-  "tags": ["moar", "tags"]
 }
 ```
 
