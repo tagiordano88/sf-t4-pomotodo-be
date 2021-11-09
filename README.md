@@ -19,13 +19,12 @@
   "order": [
     "57f78108-4704-41a9-989b-3721ceedfad1"
   ],
-  todos: {
+  "todos": {
     "57f78108-4704-41a9-989b-3721ceedfad1": {
       "name": "Add entry",
       "desc": "Personal log",
       "dateCreated": "1622077232207",
       "dateCompleted": "1622077232208",
-      "tags": ["caput"],
       "pomodoroCount": 2
     }
   }
@@ -59,7 +58,6 @@ Request Body:
 {
   "name": "Add entry",
   "desc": "Personal log",
-  "tags": ["caput"],
 }
 ```
 
@@ -75,8 +73,7 @@ Response Body:
       "name": "Add entry",
       "desc": "Personal log",
       "dateCreated": "1622077232207",
-      "dateCompleted": null,
-      "tags": ["caput"],
+      "dateCompleted": "null",
       "pomodoroCount": 0
     }
   }
@@ -106,16 +103,14 @@ Response Body:
         "name": "Add entry",
         "desc": "Personal log",
         "dateCreated": "1622077232207",
-        "dateCompleted": null,
-        "tags": ["caput"],
+        "dateCompleted": "null",
         "pomodoroCount": 0
       },
       "21f3e843-b7c0-4ddb-8df4-0111117bf2d8": {
         "name": "Rep Building",
         "desc": "Physical Training",
         "dateCreated": "1622077232209",
-        "dateCompleted": null,
-        "tags": ["manu"],
+        "dateCompleted": "null",
         "pomodoroCount": 0
       }
     }
@@ -135,7 +130,7 @@ PATCH /api/todo-data
 Request Body: 
 ```json
 {
-  order: [
+  "order": [
     "d6b2e215-f095-402e-bf31-f75154a69329",
     "e61cf002-5fa4-41a2-9ace-a7bf4a284d33",
     "9b314719-0500-4e2f-a0f8-171b96766741"
@@ -175,23 +170,6 @@ Request Body:
 {
   "name": "WORKOUTMOAR",
   "desc": "Physical Training",
-}
-```
-
-As a user I want to be able to tag my todo multiple times
-
-    Given I have saved a todo
-    When I add a tag or another
-    Then my todo has the saved tags
-
-PATCH /api/todo-data/{todo-id}
-204 No Content
-
-
-Request Body:
-```json
-{
-  "tags": ["moar", "tags"]
 }
 ```
 

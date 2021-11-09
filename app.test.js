@@ -26,7 +26,6 @@ describe("Test public routes", () => {
         name: "Add entry",
         desc: "Personal log",
         dateCreated: "1622077232207",
-        tags: ["caput"],
         pomodoroCount: 0,
       })
       .expect(201)
@@ -45,7 +44,6 @@ describe("Test public routes", () => {
         //       "desc": "Personal log",
         //       "dateCreated": "1622077232207",
         //       "dateCompleted": null,
-        //       "tags": ["caput"],
         //       "pomodoroCount": 0
         //     }
         //   }
@@ -64,14 +62,12 @@ describe("Test public routes", () => {
       name: "Add entry",
       desc: "Personal log",
       dateCreated: "1622077232207",
-      tags: ["caput"],
       pomodoroCount: 0,
     };
     const todo2 = {
       name: "Rep building",
       desc: "Physical training",
       dateCreated: "1622077232209",
-      tags: ["manu"],
       pomodoroCount: 0,
     };
     return todoDataService
@@ -94,14 +90,12 @@ describe("Test public routes", () => {
       name: "Add entry",
       desc: "Personal log",
       dateCreated: "1622077232207",
-      tags: ["caput"],
       pomodoroCount: 0,
     };
     const todo2 = {
       name: "Rep building",
       desc: "Physical training",
       dateCreated: "1622077232209",
-      tags: ["manu"],
       pomodoroCount: 0,
     };
 
@@ -135,7 +129,6 @@ describe("Test public routes", () => {
       name: "Add entry",
       desc: "Personal log",
       dateCreated: "1622077232207",
-      tags: ["caput"],
       pomodoroCount: 0,
     };
 
@@ -169,14 +162,12 @@ describe("Test public routes", () => {
       name: "Add entry",
       desc: "Personal log",
       dateCreated: "1622077232207",
-      tags: ["caput"],
       pomodoroCount: 0,
     };
     const todo2 = {
       name: "Rep building",
       desc: "Physical training",
       dateCreated: "1622077232209",
-      tags: ["manu"],
       pomodoroCount: 0,
     };
 
