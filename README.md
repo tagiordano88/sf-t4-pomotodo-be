@@ -1,24 +1,26 @@
 # Pomodoro Todo List (Pomotodo) Backend
 
 ## Requirements
+
 - node (tested with versions 10+)
 - MongoDB (install locally - can use Docker)
 
 ## Installation
+
 - `npm install`
 
 ## Usage
+
 - `npm start`
 - If using a remote MongoDB instance, set the URL in the .env file as the variable **mongoURI** and start the Express server.
 
 ## Stories and Acceptance Criteria
+
 ### Example TODO body
 
 ```json
 {
-  "order": [
-    "57f78108-4704-41a9-989b-3721ceedfad1"
-  ],
+  "order": ["57f78108-4704-41a9-989b-3721ceedfad1"],
   "todos": {
     "57f78108-4704-41a9-989b-3721ceedfad1": {
       "name": "Add entry",
@@ -57,7 +59,7 @@ Request Body:
 ```json
 {
   "name": "Add entry",
-  "desc": "Personal log",
+  "desc": "Personal log"
 }
 ```
 
@@ -65,9 +67,7 @@ Response Body:
 
 ```json
 {
-  "order": [
-    "57f78108-4704-41a9-989b-3721ceedfad1"
-  ],
+  "order": ["57f78108-4704-41a9-989b-3721ceedfad1"],
   "todos": {
     "57f78108-4704-41a9-989b-3721ceedfad1": {
       "name": "Add entry",
@@ -92,6 +92,7 @@ GET /api/todo-data
 200 OK
 
 Response Body:
+
 ```json
 {
   "order": [
@@ -99,25 +100,26 @@ Response Body:
     "21f3e843-b7c0-4ddb-8df4-0111117bf2d8"
   ],
   "todos": {
-      "57f78108-4704-41a9-989b-3721ceedfad1": {
-        "name": "Add entry",
-        "desc": "Personal log",
-        "dateCreated": "1622077232207",
-        "dateCompleted": "null",
-        "pomodoroCount": 0
-      },
-      "21f3e843-b7c0-4ddb-8df4-0111117bf2d8": {
-        "name": "Rep Building",
-        "desc": "Physical Training",
-        "dateCreated": "1622077232209",
-        "dateCompleted": "null",
-        "pomodoroCount": 0
-      }
+    "57f78108-4704-41a9-989b-3721ceedfad1": {
+      "name": "Add entry",
+      "desc": "Personal log",
+      "dateCreated": "1622077232207",
+      "dateCompleted": "null",
+      "pomodoroCount": 0
+    },
+    "21f3e843-b7c0-4ddb-8df4-0111117bf2d8": {
+      "name": "Rep Building",
+      "desc": "Physical Training",
+      "dateCreated": "1622077232209",
+      "dateCompleted": "null",
+      "pomodoroCount": 0
     }
   }
 }
 ```
+
 ---
+
 As a user I want to update the order of my todos
 
     Given I have saved several todos
@@ -127,7 +129,8 @@ As a user I want to update the order of my todos
 PATCH /api/todo-data
 204 No content
 
-Request Body: 
+Request Body:
+
 ```json
 {
   "order": [
@@ -137,6 +140,7 @@ Request Body:
   ]
 }
 ```
+
 ---
 
 As as user, I want to update a todo when I complete it
@@ -148,13 +152,14 @@ As as user, I want to update a todo when I complete it
 PATCH /api/todo-data/{todo-id}
 204 No Content
 
-
 Request Body:
+
 ```json
 {
   "dateCompleted": "1622083278575"
 }
 ```
+
 As a user I want to update a todos name or description
 
     Given I have saved a todo
@@ -164,15 +169,14 @@ As a user I want to update a todos name or description
 PATCH /api/todo-data/{todo-id}
 204 No Content
 
-
 Request Body:
+
 ```json
 {
   "name": "WORKOUTMOAR",
-  "desc": "Physical Training",
+  "desc": "Physical Training"
 }
 ```
-
 
 As a user I want to be able to record how many pomodoro intervals I have completed for a todo
 
@@ -183,8 +187,8 @@ As a user I want to be able to record how many pomodoro intervals I have complet
 PATCH /api/todo-data/{todo-id}
 204 No Content
 
-
 Request Body:
+
 ```json
 {
   "pomodoroCount": 1
