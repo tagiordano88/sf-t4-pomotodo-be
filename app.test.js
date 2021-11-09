@@ -73,7 +73,7 @@ describe("Test public routes", () => {
     return todoDataService
       .addTodo(todo1)
       .then(() => {
-        todoDataService.addTodo(todo2);
+        return todoDataService.addTodo(todo2);
       })
       .then(() => {
         return request(app)
