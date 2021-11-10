@@ -121,20 +121,30 @@ module.exports = class TodoDataService {
       }
 
       // Check the "tododata" table for the tododata item, and set it to "existingTodo"
-      // let existingTodo = ...
-
+      let existingTodos = await dynamoClient.scan(params).promise().then((data) => {
+        return data.Items[0];
+      });
+      
+      let existingTodo = existingTodos.todos[id]
       for (let key in options) {
-        existingTodo.todos[id][key] = options[key];
+        existingTodo[key] = options[key];
       }
 
       params = {
         TableName,
         Item: {
-          ...existingTodo
-        }
+          id: "0"
+        },
+        ExpressionAttributeNames: {
+          "#T": "todos"
+        },
+        ExpressionAttributeValues: {
+          ":t": existingTodos.todos
+        },
+        UpdateExpression: "SET #T = :t"
       }
-
       // Replace the existing tododata item with the updated one
+      await dynamoClient.update(params).promise();
     } catch (error) {
       console.error(error);
       return error;
