@@ -40,9 +40,7 @@ module.exports = class TodoDataService {
           Item: newTodoData,
         }
         // ...
-          await dynamoClient.put(params).promise().then((data) => {
-            return data;
-          })
+          await dynamoClient.put(params).promise();
 
         // Return the newly created tododata item
       } else { // a tododata item already exist
