@@ -94,16 +94,17 @@ module.exports = class TodoDataService {
         Key: {
           id: "0"
         },
-        // UpdateExpression: ...
-        // ExpressionAttributeNames: {
-        //   ...
-        // },
-        // ExpressionAttributeValues: {
-        //   ...
-        // },
+        UpdateExpression: "SET #order = :order",
+        ExpressionAttributeNames: {
+          "#order":"order"
+        },
+        ExpressionAttributeValues: {
+          ":order":options.order
+        },
       }
 
       // Update the tododata item
+      await dynamoClient.update(params).promise()
     } catch (error) {
       console.error(error);
       return error;
