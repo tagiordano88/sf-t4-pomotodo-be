@@ -6,6 +6,7 @@ const TableName = process.env.TABLE_NAME;
 const dynamoClient = require('../db');
 // uuid, useful for generating unique ids
 const uuid = require("uuid");
+const { DocumentClient } = require('aws-sdk/clients/dynamodb');
 
 module.exports = class TodoDataService {
   static async addTodo(todo) {
@@ -19,6 +20,9 @@ module.exports = class TodoDataService {
     try {
       // Check the "tododata" table for existing a tododata item
       // let existingTodoData = ...
+      let existingTodoData = await dynamoClient.scan(params).promise().then((data) => {
+        return data;
+      });
       
       // no tododata exists yet
       if (existingTodoData.Items.length === 0) {
@@ -36,6 +40,9 @@ module.exports = class TodoDataService {
           Item: newTodoData,
         }
         // ...
+          await dynamoClient.put(params).promise().then((data) => {
+            return data;
+          })
 
         // Return the newly created tododata item
       } else { // a tododata item already exist
@@ -49,9 +56,14 @@ module.exports = class TodoDataService {
           Item: existingTodoData,
         }
         // ...
-
-        // Return the newly created tododata item
+        await dynamoClient.put(params).promise();
       }
+
+      let newItem = await dynamoClient.scan(params).promise().then((data) => {
+        return data;
+      });
+      return newItem.Items[0];
+        // Return the newly created tododata item
     } catch (error) {
       console.error(error);
       return error;
