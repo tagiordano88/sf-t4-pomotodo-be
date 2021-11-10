@@ -78,7 +78,10 @@ module.exports = class TodoDataService {
           id: "0"
         }
       }
-
+      let newItem = await dynamoClient.scan(params).promise().then((data) => {
+        return data;
+      });
+      return newItem.Items[0];
       // Check the "tododata" table for the tododata item, and return it
     } catch (error) {
       console.error(error);
