@@ -163,24 +163,29 @@ module.exports = class TodoDataService {
       }
 
       // Check the "tododata" table for the tododata item, and set it to "existingTodo"
-      // let existingTodo = ...
+      let existingTodos = await dynamoClient.scan(params).promise().then((data) => {
+        return data.Items[0];
+      });
 
-      existingTodo.order = existingTodo.order.filter((orderId) => {
+      let existingTodo = existingTodos.todos[id]
+
+      existingTodos.order = existingTodos.order.filter((orderId) => {
         return orderId !== id
       });
 
-      delete existingTodo.todos[id];
+      delete existingTodos.todos[id];
 
       params = {
         TableName,
         Item: {
-          ...existingTodo
+          ...existingTodos
         }
       }
 
+      await dynamoClient.put(params).promise();
       // Replace the existing tododata item with the updated one
     } catch (error) {
-      console.error(error);
+      console.log(error);
       return error;
     }
   }
